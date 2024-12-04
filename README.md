@@ -43,3 +43,11 @@
 
 5. **Access the website:**
    Open your browser and navigate to [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+
+## **To Access Specific Pages Example**
+
+-   **Checkout Page:**  
+    [http://127.0.0.1:8000/checkout/](http://127.0.0.1:8000/checkout/)
+
+-   **Product Details Page:**  
+    [http://127.0.0.1:8000/product-details/](http://127.0.0.1:8000/product-details/)

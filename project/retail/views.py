@@ -13,3 +13,19 @@ def contact(request):
 
 def about(request):
     return render(request, "retail/about.html")
+
+
+def cart(request):
+    return render(request, "retail/cart.html")
+
+
+def checkout(request):
+    return render(request, "retail/checkout.html")
+
+
+def product_details(request):
+    return render(request, "retail/product-details.html")
+
+
+def wishlist(request):
+    return render(request, "retail/wishlist.html")
