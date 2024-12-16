@@ -1,0 +1,47 @@
+{% extends "retail/layout.html" %}
+
+{% load static %}
+
+{% block title %}Sign Up{% endblock%}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'retail/css/sign-up.css' %}" />
+{% endblock %}
+
+{% block body %}
+
+<div class="container d-flex flex-row justify-content-between align-items-center">
+    <div class="me-5">
+        <img src="{% static 'retail/images/sign-up.svg' %}" alt="Sign Up Image">
+    </div>
+
+    <div class="w-100 ms-5">
+        {% if message %}
+        <div>{{ message }}</div>
+        {% endif %}
+
+        <h2>Create an account</h2>
+        <p>Enter your details below</p>
+
+        <form action="{% url 'sign-up' %}" method="post" class="mt-4 mb-3" autocomplete="on">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input class="form-control border-0 border-bottom rounded-0" autofocus type="text" name="username" placeholder="Username" />
+            </div>
+            <div class="mb-3">
+                <input class="form-control border-0 border-bottom rounded-0" type="email" name="email" placeholder="Email Address" />
+            </div>
+            <div class="mb-3">
+                <input class="form-control border-0 border-bottom rounded-0" type="password" name="password" placeholder="Password" />
+            </div>
+            <div class="mb-4">
+                <input class="form-control border-0 border-bottom rounded-0" type="password" name="confirmation" placeholder="Confirm Password" />
+            </div>
+            <input class="btn btn-danger btn-lg w-100 rounded-1 mt-3" type="submit" value="Create an account" />
+        </form>
+
+        <p class="text-center">Already have an account? <a href="{% url 'login' %}" class="link-dark">Log In</a></p>
+    </div>
+</div>
+
+{% endblock %}

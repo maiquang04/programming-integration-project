@@ -27,7 +27,7 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["319c-123-28-30-51.ngrok-free.app", "127.0.0.1"]
 
 
 # Application definition
@@ -83,6 +83,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "retail.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -121,9 +122,9 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 # Optional if you're in development:
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Adjust this path to your project structure
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",  # Adjust this path to your project structure
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

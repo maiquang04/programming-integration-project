@@ -1,0 +1,47 @@
+{% extends "retail/layout.html" %}
+
+{% load static %}
+
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'retail/css/sign-up.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div class="container d-flex flex-row justify-content-between align-items-center">
+    <div class="me-5">
+        <img src="{% static 'retail/images/sign-up.svg' %}" alt="Sign Up Image">
+    </div>
+
+    <div class="w-100 ms-5">
+        {% if message %}
+        <div>{{ message }}</div>
+        {% endif %}
+
+        <h2>Log in to Exclustive</h2>
+        <p>Enter your details below</p>
+
+        <form action="{% url 'login' %}" method="post" class="mt-4 mb-3" autocomplete="on">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input class="form-control border-0 border-bottom rounded-0" autofocus type="text" name="username" placeholder="Username" />
+            </div>
+            <div class="mb-4">
+                <input class="form-control border-0 border-bottom rounded-0" type="password" name="password" placeholder="Password" />
+            </div>
+            <div class="d-flex flex-row justify-content-between align-items-center pt-2">
+                <input class="btn btn-danger btn-lg rounded-1 flex-grow-1 me-5" type="submit" value="Login" />
+                <p class="text-center ms-5 mt-3">
+                    <a href="{% url 'login' %}" class="link-danger">Forget password?</a>
+                </p>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
