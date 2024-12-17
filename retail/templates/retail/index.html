@@ -32,24 +32,65 @@
 <hr>
 
 <div class="d-flex flex-column mt-5 ">
-    <div class="section-label">
+    <div class="section-label d-flex flex-row justify-content-start align-items-center">
         <div class=""></div>
         <span>Categories</span>
     </div>
     <div class="section-title-bar d-flex flex-row justify-content-between align-items-center">
-        <h3>Browse By Category</h3>
-        <div>
-            Icon
+        <span class="section-title-bar__title">Browse By Category</span>
+        <div class="">
+            <i class="fa-solid fa-arrow-left"></i>
+            <i class="fa-solid fa-arrow-right"></i>
         </div>
     </div>
     <div class="container category-section">
         <div class="row">
-            <div class="col">
-                <div class="">
-                    <img src="" alt="">
+            <div class="col category-section__product">
+                <div class="category-section__product-image">
+                    <img src="{% static 'retail/images/phone.svg' %}" alt="Phone">
                 </div>
                 <div>
-                    <span>Phones</span>
+                    <span>Phone</span>
+                </div>
+            </div>
+            <div class="col category-section__product">
+                <div class="category-section__product-image">
+                    <img src="{% static 'retail/images/phone.svg' %}" alt="Phone">
+                </div>
+                <div>
+                    <span>Computer</span>
+                </div>
+            </div>
+            <div class="col category-section__product">
+                <div class="category-section__product-image">
+                    <img src="{% static 'retail/images/smartwatch.svg' %}" alt="Phone">
+                </div>
+                <div>
+                    <span>Smartwatch</span>
+                </div>
+            </div>
+            <div class="col category-section__product">
+                <div class="category-section__product-image">
+                    <img src="{% static 'retail/images/headphone.svg' %}" alt="Phone">
+                </div>
+                <div>
+                    <span>Headphone</span>
+                </div>
+            </div>
+            <div class="col category-section__product">
+                <div class="category-section__product-image">
+                    <img src="{% static 'retail/images/gaming.svg' %}" alt="Phone">
+                </div>
+                <div>
+                    <span>Gaming</span>
+                </div>
+            </div>
+            <div class="col category-section__product">
+                <div class="category-section__product-image">
+                    <img src="{% static 'retail/images/camera.svg' %}" alt="Phone">
+                </div>
+                <div>
+                    <span>Camera</span>
                 </div>
             </div>
         </div>
