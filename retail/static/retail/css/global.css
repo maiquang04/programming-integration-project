@@ -28,3 +28,48 @@ input:focus.form-control {
 	outline: none;
 	box-shadow: none;
 }
+
+ul {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+ul li:has(+ li) {
+	margin-bottom: 12px;
+}
+
+.download-app__text {
+	font-size: 12px;
+	color: gray;
+}
+
+.download-app__qr img {
+	max-width: 100px; /* Adjust size if needed */
+}
+
+.download-app__store img {
+	max-width: 100px; /* Adjust size for icons */
+}
+
+.footer-subscribe .form-control {
+	background-color: black;
+	color: grey;
+	border-color: #fff;
+	border-right: none;
+}
+
+.footer-subscribe .form-control::placeholder {
+	color: grey; /* Grey placeholder */
+	opacity: 0.7; /* Adjust opacity if needed */
+}
+
+.footer-subscribe span {
+	background-color: black;
+	color: #fff;
+	border-left: none;
+}
+
+.footer-copyright {
+	color: grey;
+	opacity: 0.6;
+}

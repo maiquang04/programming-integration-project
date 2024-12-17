@@ -7,9 +7,9 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("sign-up", views.sign_up, name="sign-up"),
     path("contact", views.contact, name="contact"),
-    path("abou/", views.about, name="about"),
+    path("about", views.about, name="about"),
     path("cart", views.cart, name="cart"),
     path("checkout", views.checkout, name="checkout"),
     path("product-details", views.product_details, name="product-details"),
-    path("wishlis/", views.wishlist, name="wishlist"),
+    path("wishlist", views.wishlist, name="wishlist"),
 ]
