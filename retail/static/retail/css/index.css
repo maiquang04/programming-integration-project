@@ -131,6 +131,10 @@
 .product-section {
 }
 
+.product-section .row {
+	margin-bottom: 50px;
+}
+
 .product-section__product {
 }
 
