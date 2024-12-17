@@ -3,13 +3,57 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'retail/css/index.css' %}" />
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/index.js' %}"></script>
+<script src="{% static 'retail/js/index.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-<h1>Homepage</h1>
+
+<div class="d-flex flex-row align-items-center mb-5">
+    <ul class="mb-0 category-list" style="font-weight: 500;">
+        <li>Women's Fashion</li>
+        <li>Men's Fashion</li>
+        <li>Electronics</li>
+        <li>Home & Lifestyle</li>
+        <li>Medicine</li>
+        <li>Sports & Outdoor</li>
+        <li>Baby Toys</li>
+        <li>Groceries & Pets</li>
+        <li>Health & Beauty</li>
+    </ul>
+    <div class="featured-product-image">
+        <img src="{% static 'retail/images/iphone.jpg' %}" alt="Iphone">
+    </div>
+</div>
+
+<hr>
+
+<div class="d-flex flex-column mt-5 ">
+    <div class="section-label">
+        <div class=""></div>
+        <span>Categories</span>
+    </div>
+    <div class="section-title-bar d-flex flex-row justify-content-between align-items-center">
+        <h3>Browse By Category</h3>
+        <div>
+            Icon
+        </div>
+    </div>
+    <div class="container category-section">
+        <div class="row">
+            <div class="col">
+                <div class="">
+                    <img src="" alt="">
+                </div>
+                <div>
+                    <span>Phones</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
