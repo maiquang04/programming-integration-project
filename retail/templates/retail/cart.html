@@ -7,13 +7,92 @@ Cart
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/cart.css' %}" />
+<link rel="stylesheet" href="{% static 'retail/css/cart.css' %}" />
 {% endblock %}
+
 
 {% block extra_js %}
 <script src="{% static 'js/cart.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-<h1>Cart page</h1>
+<!-- Breadcrumb -->
+<nav class="breadcrumb">
+    <a href="{% url 'index' %}">Home</a> / <strong>Cart</strong>
+</nav>
+
+<!-- Cart Table Section -->
+<div class="cart-container">
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Product 1 -->
+            <tr>
+                <td class="product-info">
+                    <img src="{% static 'retail/images/monitor.png' %}" alt="LCD Monitor" class="product-img">
+                    <span>LCD Monitor</span>
+                </td>
+                <td>$650</td>
+                <td>
+                    <div class="quantity-wrapper">
+                        <input type="number" class="quantity-input" value="1" min="1" max="99">
+                    </div>
+                </td>
+                <td>$650</td>
+            </tr>
+
+            <!-- Product 2 -->
+            <tr>
+                <td class="product-info">
+                    <img src="{% static 'retail/images/Gamepad.png' %}" alt="H1 Gamepad" class="product-img">
+                    <span>H1 Gamepad</span>
+                </td>
+                <td>$550</td>
+                <td>
+                    <div class="quantity-wrapper">
+                        <input type="number" class="quantity-input" value="1" min="1" max="99">
+                    </div>                    
+                </td>
+                <td>$1100</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Cart Buttons -->
+    <div class="cart-buttons">
+        <a href="{% url 'index' %}" class="btn btn-outline-secondary">Return To Shop</a>
+        <button class="btn btn-outline-secondary ">Update Cart</button>
+    </div>
+</div>
+
+<!-- Coupon and Total Section -->
+<div class="coupon-total-section">
+    <!-- Coupon Section -->
+    <div class="coupon-section">
+        <input type="text" placeholder="Coupon Code" class="form-control">
+        <button class="btn btn-danger btn-lg rounded-1 custom-btn-font">Apply Coupon</button>
+
+    </div>
+
+    <!-- Cart Total Section -->
+    <div class="cart-total">
+        <h3>Cart Total</h3>
+        <p>Subtotal: $1750</p>
+        <p>Shipping: Free</p>
+        <p>Total: $1750</p>
+        <div class="button-wrapper">
+        <a href="{% url 'checkout' %}" class="btn btn-danger btn-lg rounded-1 custom-btn-font button-wrapper">Proceed to Checkout</a>
+        </div>
+    </div>
+</div>
+
+
+
 {% endblock %}
