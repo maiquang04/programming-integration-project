@@ -1,0 +1,128 @@
+
+.form-and-checkout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 50px;
+    margin: 20px 0;
+}
+
+
+.form-container, 
+.checkout-container {
+    flex: 1;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.form-container form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-container form input, 
+.form-container form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+
+.form-container .save-info {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.form-container .save-info input {
+    margin-right: 10px;
+    accent-color: red;
+    width: auto;
+    vertical-align: middle;
+}
+
+
+.checkout-container .checkout-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.checkout-container .checkout-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.checkout-container .checkout-item .item-details {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.checkout-container .checkout-summary {
+    margin: 20px 0;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+}
+
+.checkout-container .checkout-summary .summary-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+}
+
+.checkout-container .checkout-summary .summary-line:last-child {
+    border-bottom: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.payment-method {
+    margin: 20px 0;
+}
+
+.payment-method label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.payment-method img {
+    margin-left: 10px;
+    height: 20px;
+}
+
+
+.checkout-container .place-order {
+    width: 100%;
+    padding: 12px;
+    background-color: #e63946;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+ 
+}
+
+.checkout-container .place-order:hover {
+    background-color: #d62839;
+}
