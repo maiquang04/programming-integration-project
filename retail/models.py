@@ -12,6 +12,14 @@ class User(AbstractUser):
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, null=True)
+    icon = models.FileField(
+        upload_to="retail/categories/icons/", blank=True, null=True
+    )
+
+    def get_icon(self):
+        if self.icon:
+            return self.icon.url
+        return "/static/retail/images/default-category.svg"
 
     def __str__(self):
         return self.name

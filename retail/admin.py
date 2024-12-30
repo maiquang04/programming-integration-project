@@ -23,7 +23,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "description")
+    list_display = ("name", "description", "icon")
     search_fields = ("name",)
 
 
