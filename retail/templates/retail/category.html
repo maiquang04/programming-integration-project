@@ -61,7 +61,7 @@
         <div class="container product-section">
             <div class="row g-5">
                 {% for product in products %}
-                <div class="col-xl-3 col-md-6 product-section__item">
+                <a href="{% url 'product-details' product.id %}" class="col-xl-3 col-md-6 product-section__item">
                     <div class="product-section__product d-flex flex-column">
                         <div class="product-section__product-thumbnail">
                             <img src="{{ product.get_image }}" alt="{{ product.name }}">
@@ -85,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
                 {% endfor %}
             </div>
         </div>

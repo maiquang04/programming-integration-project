@@ -15,7 +15,9 @@
 <div class="d-flex flex-row align-items-center mb-5">
     <ul class="mb-0 category-list" style="font-weight: 500;">
         {% for category in categories %}
-        <li>{{ category.name }}</li>
+        <li>
+            <a href="{% url 'category' category.id %}">{{ category.name }}</a>
+        </li>
         {% endfor %}
     </ul>
     <div class="featured-product-image">
@@ -128,7 +130,7 @@
         <div class="container product-section">
             <div class="row g-5">
                 {% for product in best_selling_products %}
-                <div class="col-xl-3 col-md-6 product-section__product d-flex flex-column">
+                <a href="{% url 'product-details' product.id %}" class="col-xl-3 col-md-6 product-section__product d-flex flex-column">
                     <div class="product-section__product-thumbnail">
                         <img src="{{ product.get_image }}" alt="{{ product.name }}">
                         <div class="product-section__product-heart">
@@ -155,7 +157,7 @@
                             <span class="product-section__product-rating-count">(65)</span>
                         </div>
                     </div>
-                </div>
+                </a>
                 {% endfor %}
                 {% comment %}
                 <div class="col product-section__product d-flex flex-column">
@@ -273,7 +275,7 @@
         <div class="container product-section">
             <div class="row g-5">
                 {% for product in products %}
-                <div class="col-xl-3 col-md-6 product-section__item">
+                <a href="{% url 'product-details' product.id %}" class="col-xl-3 col-md-6 product-section__item">
                     <div class="product-section__product d-flex flex-column">
                         <div class="product-section__product-thumbnail">
                             <img src="{{ product.get_image }}" alt="{{ product.name }}">
@@ -297,7 +299,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
                 {% endfor %}
             </div>
             {% comment %}

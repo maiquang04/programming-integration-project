@@ -99,23 +99,14 @@ def checkout(request):
     return render(request, "retail/checkout.html")
 
 
-def product_details(request):
-    product_name = "Laptop Gaming Lenovo Legion 9 16IRX8 83AG0047VN"
-    product_price = "$5000.00"
-    image_urls = [
-        "retail/images/product-images/product-image_1.webp",
-        "retail/images/product-images/product-image_2.webp",
-        "retail/images/product-images/product-image_3.webp",
-        "retail/images/product-images/product-image_4.webp",
-        "retail/images/product-images/product-image_5.webp",
-    ]
+def product_details(request, product_id):
+    product = Product.objects.get(pk=product_id)
+
     return render(
         request,
         "retail/product-details.html",
         {
-            "product_name": product_name,
-            "product_price": product_price,
-            "image_urls": image_urls,
+            "product": product,
         },
     )
 

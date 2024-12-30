@@ -15,98 +15,94 @@ Product-Details
 {% endblock %}
 
 {% block body %}
-    <div class="mt-4 d-flex gap-3 product_container">
-        <div class="product-images d-flex h-100 gap-3">
-            <div class="d-flex flex-column gap-1 overflow-auto">
-                {%for image in image_urls %}
-                    <img src = {% static image %} role='button' class='object-fit-contain product-image_item' onclick="changeImage(this)"/>
-                {% endfor%}
-            </div>
-            <div class='h-100'>
-                <img src={%static image_urls.0%} role='button' class='object-fit-contain primary-image' id='primary-image'/> 
-            </div>
+<div class="mt-4 d-flex gap-3 product_container">
+    <div class="product-images d-flex h-100 gap-3">
+        <div class="d-flex flex-column gap-1 overflow-auto">
+            {% for i in "12345" %}
+            <img src="{{ product.get_image }}" role='button' class='object-fit-contain product-image_item' onclick="changeImage(this)" />
+            {% endfor%}
         </div>
-        <div class='modal'>
-            <img class="modal-image" id="modal-img">
-            <span class="close-btn"><i class="fa-solid fa-xmark"></i></span>
+        <div class='h-100'>
+            <img src="{{ product.get_image }}" role='button' class='object-fit-contain primary-image' id='primary-image' />
         </div>
-        <div class="product-description position-relative">
-            <h4>{{product_name}}</h4>
-            <h5 style = 'font-weight: 400;'>{{product_price}}</h5>
-            <p class ="product_description">With the Intel Core i9-13980HX processor featuring 24 cores and 32 threads, the Lenovo Legion 9 16IRX8 83AG0047VN not only meets every challenge 
-                for gamers but also excels in multitasking, graphics, and other demanding tasks. <br/>
-                Accompanying this is 64GB of DDR5 RAM operating at a speed of 6400MHz and a 2TB M.2 PCIe 4.0x4 NVMe SSD, along with the NVIDIA 
-                GeForce RTX 4090 GPU, making it a powerhouse device. This powerful CPU ensures smooth handling of both multitasking and 
-                performance-intensive applications. The large, high-speed RAM guarantees stable performance while working with multiple 
-                applications simultaneously.</p>
-            <div class='d-flex  flex-column gap-4'>
-                <div class='d-flex justify-content-between align-items-center'>
-                    <div class='quantity-input_container'>
-                        <button class='decrement_button' onclick="decrement()"><i class="fa-solid fa-minus"></i></button>
-                        <input  type='number' class='' id='quantity_input' value='1' min='1'></input>
-                        <button class='increment_button' onclick="increment()"><i class="fa-solid fa-plus"></i></button>
-                    </div>
-                    <div class='wishlist_button' role='button' onclick="toggleWishlist(this)"><i class="fa-regular fa-heart wishlist_icon" ></i>
-                    </div>
-                </div>
-                <div class='d-flex justify-content-between align-items-center'>
-                    <button class="cart-btn"><i class="fa-solid fa-cart-shopping me-3"></i><span class='d-inline-block'>Add To Cart</span></button>
-                    <a href={% url 'checkout'%} class='buy_button' role='button'>Buy Now</a>
-                </div>
-            </div>
-            <div class='services_infor'>
-                <div class='d-flex align-items-center gap-4 ps-3' style='border-bottom: 1px solid rgba(0, 0, 0, 0.5); height: 80px'>
-                    <div style='width:30px'>
-                        <i class="fa-solid fa-truck" style='font-size:30px'></i>
-                    </div>
-                    <div>
-                        <h5 >Free Delivery</h5>
-                        <span style='text-decoration: underline;'>Enter your postal code for Delivery Availability</span>
-                    </div>
-                </div>
-                <div class='d-flex align-items-center gap-4 ps-3' style='height: 80px;'>
-                    <div style='width: 30px;'>
-                        <i class="fa-solid fa-arrow-rotate-left" style='font-size:30px'></i>
-                    </div>
-                    <div>
-                        <h5>Return Delivery</h5>
-                        <span >Free 30 Days Delivery Returns. <a style= 'text-decoration:underline;' role='button'>Details</a></span>
-                    </div>
-                </div>
-            </div>
-        </div> 
     </div>
-    <div class='mt-5'>
-        <h5 class='related-item_list' style='color: red'>Related items</h4>
-    </div>  
-    <div class= 'd-flex overflow-auto flex-fill gap-4'>
-        <a role= 'button' src='#'>
-            <div>
-                <img src={%static image_urls.0 %} class='object-fit-contain related-item_img'/>
-                <h5>{{product_name}}</h5>
-        </a>
-        
+    <div class='modal'>
+        <img class="modal-image" id="modal-img">
+        <span class="close-btn"><i class="fa-solid fa-xmark"></i></span>
+    </div>
+    <div class="product-description position-relative">
+        <h4>{{ product.name }}</h4>
+        <h5 style='font-weight: 400;'>{{ product.get_price }}</h5>
+        <p class="product_description">
+            {{ product.description }}
+        </p>
+        <div class='d-flex  flex-column gap-4'>
+            <div class='d-flex justify-content-between align-items-center'>
+                <div class='quantity-input_container'>
+                    <button class='decrement_button' onclick="decrement()"><i class="fa-solid fa-minus"></i></button>
+                    <input type='number' class='' id='quantity_input' value='1' min='1'></input>
+                    <button class='increment_button' onclick="increment()"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div class='wishlist_button' role='button' onclick="toggleWishlist(this)"><i class="fa-regular fa-heart wishlist_icon"></i>
+                </div>
             </div>
-        <a role= 'button' src='#'>
-            <div>
-                <img src={%static image_urls.0 %} class='object-fit-contain related-item_img'/>
-                <h5>{{product_name}}</h5>
-            
+            <div class='d-flex justify-content-between align-items-center'>
+                <button class="cart-btn"><i class="fa-solid fa-cart-shopping me-3"></i><span class='d-inline-block'>Add To Cart</span></button>
+                <a href="{% url 'checkout' %}" class='buy_button' role='button'>Buy Now</a>
             </div>
-        </a>
-        <a role= 'button' src='#'>
-            <div>
-                <img src={%static image_urls.0 %} class='object-fit-contain related-item_img'/>
-                <h5>{{product_name}}</h5>
+        </div>
+        <div class='services_infor'>
+            <div class='d-flex align-items-center gap-4 ps-3' style='border-bottom: 1px solid rgba(0, 0, 0, 0.5); height: 80px'>
+                <div style='width:30px'>
+                    <i class="fa-solid fa-truck" style='font-size:30px'></i>
+                </div>
+                <div>
+                    <h5>Free Delivery</h5>
+                    <span style='text-decoration: underline;'>Enter your postal code for Delivery Availability</span>
+                </div>
+            </div>
+            <div class='d-flex align-items-center gap-4 ps-3' style='height: 80px;'>
+                <div style='width: 30px;'>
+                    <i class="fa-solid fa-arrow-rotate-left" style='font-size:30px'></i>
+                </div>
+                <div>
+                    <h5>Return Delivery</h5>
+                    <span>Free 30 Days Delivery Returns. <a style='text-decoration:underline;' role='button'>Details</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='mt-5'>
+    <h5 class='related-item_list' style='color: red'>Related items</h4>
+</div>
+<div class='d-flex overflow-auto flex-fill gap-4'>
+    <a role='button' src='#'>
+        <div>
+            <img src="{{ product.get_image }}" class='object-fit-contain related-item_img' />
+            <h5>{{ product.name }}</h5>
+    </a>
+</div>
+<a role='button' src='#'>
+    <div>
+        <img src="{{ product.get_image }}" class='object-fit-contain related-item_img' />
+        <h5>{{ product.name }}</h5>
 
-            </div>
-        </a>
-        <a role= 'button' src='#'>
-            <div>
-                <img src={%static image_urls.0 %} class='object-fit-contain related-item_img'/>
-                <h5>{{product_name}}</h5>
-            </div>
-        </a>
     </div>
+</a>
+<a role='button' src='#'>
+    <div>
+        <img src="{{ product.get_image }}" class='object-fit-contain related-item_img' />
+        <h5>{{ product.name }}</h5>
+
+    </div>
+</a>
+<a role='button' src='#'>
+    <div>
+        <img src="{{ product.get_image }}" class='object-fit-contain related-item_img' />
+        <h5>{{ product.name }}</h5>
+    </div>
+</a>
+</div>
 
 {% endblock %}
