@@ -14,15 +14,9 @@
 
 <div class="d-flex flex-row align-items-center mb-5">
     <ul class="mb-0 category-list" style="font-weight: 500;">
-        <li>Women's Fashion</li>
-        <li>Men's Fashion</li>
-        <li>Electronics</li>
-        <li>Home & Lifestyle</li>
-        <li>Medicine</li>
-        <li>Sports & Outdoor</li>
-        <li>Baby Toys</li>
-        <li>Groceries & Pets</li>
-        <li>Health & Beauty</li>
+        {% for category in categories %}
+        <li>{{ category }}</li>
+        {% endfor %}
     </ul>
     <div class="featured-product-image">
         <img src="{% static 'retail/images/iphone.jpg' %}" alt="Iphone">
@@ -43,54 +37,66 @@
             <i class="fa-solid fa-arrow-right"></i>
         </div>
     </div>
-    <div class="container category-section">
-        <div class="row">
-            <div class="col category-section__product">
-                <div class="category-section__product-image">
-                    <img src="{% static 'retail/images/phone.svg' %}" alt="Phone">
-                </div>
-                <div>
-                    <span>Phone</span>
-                </div>
-            </div>
-            <div class="col category-section__product">
-                <div class="category-section__product-image">
-                    <img src="{% static 'retail/images/phone.svg' %}" alt="Phone">
-                </div>
-                <div>
-                    <span>Computer</span>
+    <div class="container category-section px-4">
+        <div class="row g-5">
+            <div class="col-lg-2 col-md-3">
+                <div class="category-section__product">
+                    <div class="category-section__product-image">
+                        <img src="{% static 'retail/images/categories/phone.svg' %}" alt="Phone">
+                    </div>
+                    <div>
+                        <span>Phone</span>
+                    </div>
                 </div>
             </div>
-            <div class="col category-section__product">
-                <div class="category-section__product-image">
-                    <img src="{% static 'retail/images/smartwatch.svg' %}" alt="Phone">
-                </div>
-                <div>
-                    <span>Smartwatch</span>
-                </div>
-            </div>
-            <div class="col category-section__product">
-                <div class="category-section__product-image">
-                    <img src="{% static 'retail/images/headphone.svg' %}" alt="Phone">
-                </div>
-                <div>
-                    <span>Headphone</span>
+            <div class="col-lg-2 col-md-3">
+                <div class="category-section__product">
+                    <div class="category-section__product-image">
+                        <img src="{% static 'retail/images/categories/computer.svg' %}" alt="Computer">
+                    </div>
+                    <div>
+                        <span>Computer</span>
+                    </div>
                 </div>
             </div>
-            <div class="col category-section__product">
-                <div class="category-section__product-image">
-                    <img src="{% static 'retail/images/gaming.svg' %}" alt="Phone">
-                </div>
-                <div>
-                    <span>Gaming</span>
+            <div class="col-lg-2 col-md-3">
+                <div class="category-section__product">
+                    <div class="category-section__product-image">
+                        <img src="{% static 'retail/images/categories/smartwatch.svg' %}" alt="Smartwatch">
+                    </div>
+                    <div>
+                        <span>Smartwatch</span>
+                    </div>
                 </div>
             </div>
-            <div class="col category-section__product">
-                <div class="category-section__product-image">
-                    <img src="{% static 'retail/images/camera.svg' %}" alt="Phone">
+            <div class="col-lg-2 col-md-3">
+                <div class="category-section__product">
+                    <div class="category-section__product-image">
+                        <img src="{% static 'retail/images/categories/headphone.svg' %}" alt="Headphone">
+                    </div>
+                    <div>
+                        <span>Headphone</span>
+                    </div>
                 </div>
-                <div>
-                    <span>Camera</span>
+            </div>
+            <div class="col-lg-2 col-md-3">
+                <div class="category-section__product">
+                    <div class="category-section__product-image">
+                        <img src="{% static 'retail/images/categories/gaming.svg' %}" alt="Gaming">
+                    </div>
+                    <div>
+                        <span>Gaming</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3">
+                <div class="category-section__product">
+                    <div class="category-section__product-image">
+                        <img src="{% static 'retail/images/categories/camera.svg' %}" alt="Camera">
+                    </div>
+                    <div>
+                        <span>Camera</span>
+                    </div>
                 </div>
             </div>
         </div>

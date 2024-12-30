@@ -107,7 +107,8 @@
 }
 
 .category-section__product:not(:last-child) {
-	margin-right: 30px; /* Adjust the value as needed */
+	/* Adjust the value as needed */
+	/* margin-right: 30px; */
 }
 
 .category-section__product-image {

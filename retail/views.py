@@ -5,12 +5,14 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.db import IntegrityError
 
-from .models import User
+from .models import User, Category
 
 
 # Create your views here.
 def index(request):
-    return render(request, "retail/index.html")
+    categories = Category.objects.all()
+
+    return render(request, "retail/index.html", {"categories": categories})
 
 
 def login_view(request):
@@ -88,20 +90,24 @@ def checkout(request):
 
 
 def product_details(request):
-    product_name = 'Laptop Gaming Lenovo Legion 9 16IRX8 83AG0047VN'
-    product_price = '$5000.00'
-    image_urls=[
-        'retail/images/product-images/product-image_1.webp',
-        'retail/images/product-images/product-image_2.webp',
-        'retail/images/product-images/product-image_3.webp',
-        'retail/images/product-images/product-image_4.webp',
-        'retail/images/product-images/product-image_5.webp'
+    product_name = "Laptop Gaming Lenovo Legion 9 16IRX8 83AG0047VN"
+    product_price = "$5000.00"
+    image_urls = [
+        "retail/images/product-images/product-image_1.webp",
+        "retail/images/product-images/product-image_2.webp",
+        "retail/images/product-images/product-image_3.webp",
+        "retail/images/product-images/product-image_4.webp",
+        "retail/images/product-images/product-image_5.webp",
     ]
-    return render(request, "retail/product-details.html",{
-        'product_name': product_name,
-        'product_price': product_price,
-        'image_urls': image_urls
-    })
+    return render(
+        request,
+        "retail/product-details.html",
+        {
+            "product_name": product_name,
+            "product_price": product_price,
+            "image_urls": image_urls,
+        },
+    )
 
 
 def wishlist(request):

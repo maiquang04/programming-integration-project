@@ -32,3 +32,7 @@
 
 -   **Product Details Page:**  
     [http://127.0.0.1:8000/product-details/](http://127.0.0.1:8000/product-details/)
+
+## Accounts
+
+-   Admin at `localhost:<port>/admin`, username: admin, password: admin.
