@@ -33,14 +33,14 @@
     <div class="section-title-bar d-flex flex-row justify-content-between align-items-center">
         <span class="section-title-bar__title">Browse By Category</span>
         <div class="">
-            <i class="fa-solid fa-arrow-left" id="section-title-bar__prev-button"></i>
-            <i class="fa-solid fa-arrow-right" id="section-title-bar__next-button"></i>
+            <i class="fa-solid fa-arrow-left" id="section-title-bar__category-prev-button"></i>
+            <i class="fa-solid fa-arrow-right" id="section-title-bar__category-next-button"></i>
         </div>
     </div>
     <div class="container category-section px-4">
         <div class="row g-5">
             {% for category in categories %}
-            <div class="col-lg-2 col-md-4 category-section__item">
+            <div class="col-xl-2 col-md-4 col-6 category-section__item">
                 <div class="category-section__product">
                     <div class="category-section__product-image">
                         <img src="{{ category.icon.url }}" alt="{{ category.name }}">
@@ -51,7 +51,7 @@
                 </div>
             </div>
             {% endfor %}
-            <!-- <div class="col-lg-2 col-md-3 category-section__item">
+            <!-- <div class="col-xl-2 col-md-4 category-section__item">
                 <div class="category-section__product">
                     <div class="category-section__product-image">
                         <img src="{% static 'retail/images/categories/women-fashion.svg' %}" alt="Phone">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-3 category-section__item">
+            <div class="col-xl-2 col-md-4 category-section__item">
                 <div class="category-section__product">
                     <div class="category-section__product-image">
                         <img src="{% static 'retail/images/categories/men-fashion.svg' %}" alt="Computer">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-3 category-section__item">
+            <div class="col-xl-2 col-md-4 category-section__item">
                 <div class="category-section__product">
                     <div class="category-section__product-image">
                         <img src="{% static 'retail/images/categories/smartwatch.svg' %}" alt="Smartwatch">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-3 category-section__item">
+            <div class="col-xl-2 col-md-4 category-section__item">
                 <div class="category-section__product">
                     <div class="category-section__product-image">
                         <img src="{% static 'retail/images/categories/headphone.svg' %}" alt="Headphone">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-3 category-section__item">
+            <div class="col-xl-2 col-md-4 category-section__item">
                 <div class="category-section__product">
                     <div class="category-section__product-image">
                         <img src="{% static 'retail/images/categories/gaming.svg' %}" alt="Gaming">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-3 category-section__item">
+            <div class="col-xl-2 col-md-4 category-section__item">
                 <div class="category-section__product">
                     <div class="category-section__product-image">
                         <img src="{% static 'retail/images/categories/camera.svg' %}" alt="Camera">
@@ -124,7 +124,38 @@
             <button class="section-title-bar__button">View All</button>
         </div>
         <div class="container product-section">
-            <div class="row">
+            <div class="row g-5">
+                {% for product in best_selling_products %}
+                <div class="col-xl-3 col-md-6 product-section__product d-flex flex-column">
+                    <div class="product-section__product-thumbnail">
+                        <img src="{{ product.get_image }}" alt="{{ product.name }}">
+                        <div class="product-section__product-heart">
+                            <i class="fa-regular fa-heart"></i>
+                            <!-- <i class="fa-solid fa-heart"></i> -->
+                        </div>
+                    </div>
+                    <div class="product-section__product-description d-flex flex-column">
+                        <div class="product-section__product-title">{{ product.name }}</div>
+                        <div class="product-section__product-price">
+                            ${{ product.get_price }}
+                            {% if product.discounted_price %}
+                            <span class="product-section__product-price strikethrough">
+                                ${{ product.price }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div class="product-section__product-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star no-rating"></i>
+                            <span class="product-section__product-rating-count">(65)</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% comment %}
                 <div class="col product-section__product d-flex flex-column">
                     <div class="product-section__product-thumbnail">
                         <img src="{% static 'retail/images/the-north-coat.webp' %}" alt="The North Coat">
@@ -220,6 +251,7 @@
                         </div>
                     </div>
                 </div>
+                {% endcomment %}
             </div>
         </div>
     </div>

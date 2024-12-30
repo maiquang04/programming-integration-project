@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Avg, Count
 
 
 # Custom User model
@@ -52,6 +53,12 @@ class Product(models.Model):
 
     def get_price(self):
         return self.discounted_price if self.discounted_price else self.price
+
+    def average_rating(self):
+        return self.ratings.aggregate(Avg("rating"))["rating__avg"] or 0
+
+    def total_ratings(self):
+        return self.ratings.aggregate(Count("id"))["id__count"]
 
     def __str__(self):
         return self.name
@@ -156,3 +163,17 @@ class WishlistItem(models.Model):
         return (
             f"{self.product.name} in {self.wishlist.user.username}'s wishlist"
         )
+
+
+class Rating(models.Model):
+    product = models.ForeignKey(
+        Product, related_name="ratings", on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        User, related_name="ratings", on_delete=models.CASCADE
+    )
+    rating = models.PositiveIntegerField(choices=[(i, i) for i in range(1, 6)])
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} rated {self.product.name} - {self.rating} star(s)"

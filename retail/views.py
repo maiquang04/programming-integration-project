@@ -5,14 +5,24 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.db import IntegrityError
 
-from .models import User, Category
+from .models import User, Category, Product
 
 
 # Create your views here.
 def index(request):
     categories = Category.objects.all()
 
-    return render(request, "retail/index.html", {"categories": categories})
+    best_selling_products = Product.objects.all().order_by("-sold_quantity")[:4]
+
+    products = Product.objects.all()
+
+    context = {
+        "categories": categories,
+        "best_selling_products": best_selling_products,
+        "products": products,
+    }
+
+    return render(request, "retail/index.html", context)
 
 
 def login_view(request):

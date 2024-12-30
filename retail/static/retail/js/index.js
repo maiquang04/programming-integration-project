@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 	const items = document.querySelectorAll(".category-section__item");
-	const prevButton = document.getElementById("section-title-bar__prev-button");
-	const nextButton = document.getElementById("section-title-bar__next-button");
+	const prevButton = document.getElementById("section-title-bar__category-prev-button");
+	const nextButton = document.getElementById("section-title-bar__category-next-button");
 	const itemsPerPage = 6;
 	let startIndex = 0;
 
