@@ -44,7 +44,6 @@ function updateExploreProductsView() {
 	const items = document.querySelectorAll("#our-products .product-section__item");
 	const prevButton = document.getElementById("section-title-bar__products-prev-button");
 	const nextButton = document.getElementById("section-title-bar__products-next-button");
-	console.log(prevButton, nextButton);
 	const itemsPerPage = 8;
 	let startIndex = 0;
 

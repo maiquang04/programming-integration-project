@@ -1,0 +1,95 @@
+{% extends "retail/layout.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'retail/css/index.css' %}" />
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'retail/js/index.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="d-flex flex-column mt-5 ">
+    <div class="section-label d-flex flex-row justify-content-start align-items-center">
+        <div class=""></div>
+        <span>Categories</span>
+    </div>
+    <div class="section-title-bar d-flex flex-row justify-content-between align-items-center">
+        <span class="section-title-bar__title">Browse By Category</span>
+        <div class="">
+            <i class="fa-solid fa-arrow-left" id="section-title-bar__category-prev-button"></i>
+            <i class="fa-solid fa-arrow-right" id="section-title-bar__category-next-button"></i>
+        </div>
+    </div>
+    <div class="container category-section px-4">
+        <div class="row g-5">
+            {% for category in categories %}
+            <a href="{% url 'category' category.id %}" class="col-xl-2 col-md-4 col-6 category-section__item">
+                <div class="category-section__product">
+                    <div class="category-section__product-image">
+                        <img src="{{ category.icon.url }}" alt="{{ category.name }}">
+                    </div>
+                    <div class="text-center">
+                        <span>{{ category.name }}</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex flex-column mt-5" id="our-products">
+        <div class="section-label d-flex flex-row justify-content-start align-items-center">
+            <div class=""></div> <!-- Left blank intentionally -->
+            <span>
+                {% if category %}
+                {{ category.name }}
+                {% else %}
+                All Products
+                {% endif %}
+            </span>
+        </div>
+        <div class="section-title-bar d-flex flex-row justify-content-between align-items-center">
+            <span class="section-title-bar__title">Explore Our Products</span>
+            <div class="">
+                <i class="fa-solid fa-arrow-left" id="section-title-bar__products-prev-button"></i>
+                <i class="fa-solid fa-arrow-right" id="section-title-bar__products-next-button"></i>
+            </div>
+        </div>
+        <div class="container product-section">
+            <div class="row g-5">
+                {% for product in products %}
+                <div class="col-xl-3 col-md-6 product-section__item">
+                    <div class="product-section__product d-flex flex-column">
+                        <div class="product-section__product-thumbnail">
+                            <img src="{{ product.get_image }}" alt="{{ product.name }}">
+                            <div class="product-section__product-heart">
+                                <i class="fa-regular fa-heart"></i>
+                                <!-- <i class="fa-solid fa-heart"></i> -->
+                            </div>
+                        </div>
+                        <div class="product-section__product-description d-flex flex-column">
+                            <div class="product-section__product-title">{{ product.name }}</div>
+                            <div class="product-section__product-price">
+                                ${{ product.get_price}}
+                            </div>
+                            <div class="product-section__product-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star no-rating"></i>
+                                <i class="fa-solid fa-star no-rating"></i>
+                                <span class="product-section__product-rating-count">(35)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

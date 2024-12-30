@@ -12,4 +12,6 @@ urlpatterns = [
     path("checkout", views.checkout, name="checkout"),
     path("product-details", views.product_details, name="product-details"),
     path("wishlist", views.wishlist, name="wishlist"),
+    path("category/<int:category_id>", views.category, name="category"),
+    path("all-products", views.all_products, name="all-products"),
 ]

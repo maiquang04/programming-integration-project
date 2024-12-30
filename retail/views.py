@@ -122,3 +122,31 @@ def product_details(request):
 
 def wishlist(request):
     return render(request, "retail/wishlist.html")
+
+
+def category(request, category_id):
+    categories = Category.objects.all()
+
+    category = Category.objects.get(pk=category_id)
+    products = category.products.all()
+
+    context = {
+        "categories": categories,
+        "category": category,
+        "products": products,
+    }
+
+    return render(request, "retail/category.html", context)
+
+
+def all_products(request):
+    categories = Category.objects.all()
+
+    products = Product.objects.all()
+
+    context = {
+        "categories": categories,
+        "products": products,
+    }
+
+    return render(request, "retail/category.html", context)
