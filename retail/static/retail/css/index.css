@@ -151,7 +151,7 @@
 	justify-content: center; /* Optional: Centers horizontally */
 }
 
-.product-section__product-thumbnail:hover::after {
+.product-section__product-thumbnail.hover::after {
 	opacity: 1;
 }
 
@@ -172,7 +172,7 @@
 	text-align: center;
 	line-height: 40px;
 	opacity: 0;
-	transition: opacity 0.3s ease;
+	transition: opacity 0.3s ease, display 0.3s ease;
 }
 
 .product-section__product-thumbnail img {
@@ -187,6 +187,7 @@
 .product-section__product-heart {
 	position: absolute;
 	display: block;
+	z-index: 2;
 	text-align: center;
 	line-height: 34px;
 	width: 34px;

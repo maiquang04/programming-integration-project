@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 	updateBrowseByCategoryView();
 	updateExploreProductsView();
+	toggleHoverEffectOnHeart();
 });
 
 function updateBrowseByCategoryView() {
@@ -75,4 +76,33 @@ function updateExploreProductsView() {
 
 	// Initial rendering of the view
 	updateView();
+}
+
+function toggleHoverEffectOnHeart() {
+	// Select all product thumbnails
+	const thumbnails = document.querySelectorAll(".product-section__product-thumbnail");
+
+	thumbnails.forEach((thumbnail) => {
+		const heart = thumbnail.querySelector(".product-section__product-heart");
+
+		// Add 'hover' class when mouse enters thumbnail (excluding heart)
+		thumbnail.addEventListener("mouseenter", () => {
+			thumbnail.classList.add("hover");
+		});
+
+		// Remove 'hover' class when mouse leaves thumbnail
+		thumbnail.addEventListener("mouseleave", () => {
+			thumbnail.classList.remove("hover");
+		});
+
+		// Ensure 'hover' class is removed when hovering over the heart
+		heart.addEventListener("mouseenter", () => {
+			thumbnail.classList.remove("hover");
+		});
+
+		// Reapply 'hover' class when leaving the heart
+		heart.addEventListener("mouseleave", () => {
+			thumbnail.classList.add("hover");
+		});
+	});
 }
