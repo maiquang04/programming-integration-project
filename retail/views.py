@@ -114,8 +114,18 @@ def checkout(request):
 
     billing_details = Address.objects.filter(user=request.user).first()
     if request.method == 'POST':
-        # If the user wants to save the new billing details
-        if 'save_info' in request.POST:
+        # Update existing billing details or create new ones
+        if billing_details:
+            # Update existing details
+            billing_details.first_name = request.POST['first_name']
+            billing_details.company_name = request.POST.get('company_name', '')
+            billing_details.street_address = request.POST['street_address']
+            billing_details.apartment_floor = request.POST.get('apartment', '')
+            billing_details.city = request.POST['city']
+            billing_details.phone_number = request.POST['phone_number']
+            billing_details.email_address = request.POST['email']
+        else:
+            # Create new billing details
             billing_details = Address(
                 user=request.user,
                 first_name=request.POST['first_name'],
@@ -126,11 +136,7 @@ def checkout(request):
                 phone_number=request.POST['phone_number'],
                 email_address=request.POST['email']
             )
-            billing_details.save()
-
-        # Process the order here
-
-        return redirect('index')  # Redirect to an order confirmation page or similar
+        billing_details.save()
 
     context = {
         'cart_items': cart_items,
