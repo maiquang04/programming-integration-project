@@ -127,14 +127,16 @@ class Address(models.Model):
     user = models.ForeignKey(
         User, related_name="addresses", on_delete=models.CASCADE
     )
-    street = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=100)
+    company_name = models.CharField(max_length=255, blank=True, null=True,default='')  # Optional
+    street_address = models.CharField(max_length=255)
+    apartment_floor = models.CharField(max_length=255, blank=True, null=True,default='')  # Optional
     city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    postal_code = models.CharField(max_length=20)
+    phone_number = models.CharField(max_length=20)
+    email_address = models.EmailField(default='example@example.com')
 
     def __str__(self):
-        return f"{self.street}, {self.city}, {self.state}, {self.country} - {self.postal_code}"
+        return f"{self.first_name}, {self.street_address}, {self.city}, {self.phone_number}"
 
 
 # Wishlist model

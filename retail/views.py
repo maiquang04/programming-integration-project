@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.db import IntegrityError
 
-from .models import User, Category, Product, Cart, CartItem
+from .models import User, Category, Product, Cart, CartItem,Address
 
 
 # Create your views here.
@@ -107,7 +107,39 @@ def cart(request):
 
 
 def checkout(request):
-    return render(request, "retail/checkout.html")
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    subtotal = sum(item.product.get_price() * item.quantity for item in cart_items)
+    total = subtotal
+
+    billing_details = Address.objects.filter(user=request.user).first()
+    if request.method == 'POST':
+        # If the user wants to save the new billing details
+        if 'save_info' in request.POST:
+            billing_details = Address(
+                user=request.user,
+                first_name=request.POST['first_name'],
+                company_name=request.POST.get('company_name', ''),
+                street_address=request.POST['street_address'],
+                apartment_floor=request.POST.get('apartment', ''),
+                city=request.POST['city'],
+                phone_number=request.POST['phone_number'],
+                email_address=request.POST['email']
+            )
+            billing_details.save()
+
+        # Process the order here
+
+        return redirect('index')  # Redirect to an order confirmation page or similar
+
+    context = {
+        'cart_items': cart_items,
+        'subtotal': subtotal,
+        'Total': total,
+        'billing_details': billing_details,
+    }
+
+    return render(request, 'retail/checkout.html', context)
 
 
 def product_details(request, product_id):

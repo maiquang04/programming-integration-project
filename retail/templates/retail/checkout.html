@@ -23,44 +23,48 @@ Checkout
     <a href="#">View Cart</a> /
     <strong>CheckOut</strong>
 </nav>
+
 <div class="form-and-checkout">
     <!-- Billing Form -->
     <div class="form-container">
         <h1>Billing Details</h1>
-        <form action="#" method="post">
+        <form action="{% url 'checkout' %}" method="post">
+            {% csrf_token %}
             <!-- First Name -->
             <label for="first-name">First Name<span>*</span></label>
-            <input type="text" id="first-name" name="first_name" placeholder="Enter your first name" required>
+            <input type="text" id="first-name" name="first_name" placeholder="Enter your first name" value="{{ form.first_name.value }}" required>
 
             <!-- Company Name -->
             <label for="company-name">Company Name</label>
-            <input type="text" id="company-name" name="company_name" placeholder="Enter company name">
+            <input type="text" id="company-name" name="company_name" placeholder="Enter company name" value="{{ form.company_name.value }}">
 
             <!-- Street Address -->
             <label for="street-address">Street Address<span>*</span></label>
-            <input type="text" id="street-address" name="street_address" placeholder="Enter your street address" required>
+            <input type="text" id="street-address" name="street_address" placeholder="Enter your street address" value="{{ form.street_address.value }}" required>
 
             <!-- Apartment (Optional) -->
             <label for="apartment">Apartment, floor, etc. (optional)</label>
-            <input type="text" id="apartment" name="apartment" placeholder="Apartment, suite, unit, etc.">
+            <input type="text" id="apartment" name="apartment" placeholder="Apartment, suite, unit, etc." value="{{ form.apartment.value }}">
 
             <!-- Town/City -->
             <label for="city">Town/City<span>*</span></label>
-            <input type="text" id="city" name="city" placeholder="Enter your city" required>
+            <input type="text" id="city" name="city" placeholder="Enter your city" value="{{ form.city.value }}" required>
 
             <!-- Phone Number -->
             <label for="phone-number">Phone Number<span>*</span></label>
-            <input type="tel" id="phone-number" name="phone_number" placeholder="Enter your phone number" required>
+            <input type="tel" id="phone-number" name="phone_number" placeholder="Enter your phone number" value="{{ form.phone_number.value }}" required>
 
             <!-- Email Address -->
             <label for="email">Email Address<span>*</span></label>
-            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            <input type="email" id="email" name="email" placeholder="Enter your email address" value="{{ form.email_address.value }}" required>
 
             <!-- Save Information Checkbox -->
             <div class="save-info">
                 <input type="checkbox" id="save-info" name="save_info">
                 <label for="save-info">Save this information for faster check-out next time</label>
             </div>
+
+            <button type="submit">Save Billing Information</button>
         </form>
     </div>
 
@@ -68,24 +72,22 @@ Checkout
     <div class="checkout-container">
         <!-- Items -->
         <div class="checkout-item">
-            <img src="{% static 'retail/images/monitor.png' %}" alt="LCD Monitor">
-            <div class="item-details">
-                <span class="item-name">LCD Monitor</span>
-                <span class="item-price">$650.00</span>
+            {% for item in cart_items %}
+            <div class="checkout-item">
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                <div class="item-details">
+                    <span class="item-name">{{ item.product.name }}</span>
+                    <span class="item-price">${{ item.product.price }}</span>
+                    <span class="item-quantity">x {{ item.quantity }}</span>
+                </div>
             </div>
-        </div>
-        <div class="checkout-item">
-            <img src="{% static 'retail/images/Gamepad.png' %}" alt="H1 Gamepad">
-            <div class="item-details">
-                <span class="item-name">H1 Gamepad</span>
-                <span class="item-price">$1100</span>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="checkout-summary">
             <div class="summary-line">
                 <span>Subtotal:</span>
-                <span>$1750</span>
+                <span>${{ subtotal }}</span>
             </div>
             <div class="summary-line">
                 <span>Shipping:</span>
@@ -93,7 +95,7 @@ Checkout
             </div>
             <div class="summary-line">
                 <span>Total:</span>
-                <span>$1750</span>
+                <span>${{ Total }}</span>
             </div>
         </div>
 
@@ -109,8 +111,6 @@ Checkout
                 <span>Cash on delivery</span>
             </label>
         </div>
-
-
 
         <!-- Place Order -->
         <button class="place-order">Place Order</button>

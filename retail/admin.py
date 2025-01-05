@@ -67,8 +67,8 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ("user", "street", "city", "state", "country", "postal_code")
-    search_fields = ("street", "city", "state", "postal_code")
+    list_display = ("user", "first_name", "company_name", "street_address", "apartment_floor", "city", "phone_number", "email_address")
+    search_fields = ("first_name", "street_address", "city", "phone_number", "email_address")
 
 
 admin.site.register(Wishlist)
