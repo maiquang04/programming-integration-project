@@ -48,6 +48,7 @@
 ## **Specifications**
 
 -   Login / Log out
+-   Search
 -   View product details
 -   Filter by category
 -   Responsive main page

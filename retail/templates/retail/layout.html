@@ -39,17 +39,17 @@
                     <li class="ms-5 nav-item">
                         <a href="{% url 'cart' %}" class="nav-brand">Cart</a>
                     </li>
-                    <li class="ms-5 nav-item">
+                    <!-- <li class="ms-5 nav-item">
                         <a href="{% url 'checkout' %}" class="nav-brand">Checkout</a>
-                    </li>
+                    </li> -->
                     <li class="ms-5 nav-item">
                         <a href="{% url 'wishlist' %}" class="nav-brand">Wishlist</a>
                     </li>
                     {% endif %}
                 </ul>
                 <div class="d-flex align-items-center">
-                    <form class="d-flex me-3" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <form action="{% url 'search' %}" method="GET" class="d-flex me-3" role="search">
+                        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-dark" type="submit">Search</button>
                     </form>
                     {% if user.is_authenticated %}
