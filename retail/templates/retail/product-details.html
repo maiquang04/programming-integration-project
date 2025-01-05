@@ -23,7 +23,7 @@ Product-Details
             {% endfor %}
         </div>
         <div class='h-100'>
-            <img src="{{ product.get_image }}" role='button' class='object-fit-contain primary-image' id='primary-image' />
+            <img style="max-width: 600px;" src="{{ product.get_image }}" role='button' class='object-fit-contain primary-image' id='primary-image' />
         </div>
     </div>
     <div class='modal'>
@@ -45,7 +45,7 @@ Product-Details
                 </div>
                 <div class='wishlist_button' role='button' onclick="toggleWishlist(this)"><i class="fa-regular fa-heart wishlist_icon"></i></div>
             </div>
-            
+
             <!-- Updated "Add to Cart" button with form -->
             <form method="POST" action="{% url 'add-to-cart' product.id %}">
                 {% csrf_token %}

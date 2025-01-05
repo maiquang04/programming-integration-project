@@ -10,19 +10,25 @@
 
     You should see:
 
-    - `retail/` (or your Django app directory)
-    - `db.sqlite3` (or your database file)
+    - `retail/`
+    - `db.sqlite3`
     - `manage.py` (Django’s management script)
 
     If these are not present, recheck your directory structure.
 
-2. **Run the development server:**
+2. **Install necessary packages**
+
+    ```
+    pip install -r requirements.txt
+    ```
+
+3. **Run the development server:**
 
     ```
     python manage.py runserver
     ```
 
-3. **Access the website:**
+4. **Access the website:**
    Open your browser and navigate to [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
 ## **To Access Specific Pages Example**
@@ -33,8 +39,18 @@
 -   **Product Details Page:**  
     [http://127.0.0.1:8000/product-details/](http://127.0.0.1:8000/product-details/)
 
-## Accounts
+## **Accounts**
 
 -   For customers, they may register their own accounts.
 
 -   Admin at [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin), username: admin, password: admin.
+
+## **Specifications**
+
+-   Login / Log out
+-   View product details
+-   Filter by category
+-   Responsive main page
+-   Wishlist
+-   Cart
+-   Checkout

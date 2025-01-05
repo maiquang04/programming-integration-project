@@ -35,6 +35,7 @@
                     <!-- <li class="ms-5 nav-item">
                         <a href="{% url 'about' %}" class="nav-brand">About</a>
                     </li> -->
+                    {% if user.is_authenticated %}
                     <li class="ms-5 nav-item">
                         <a href="{% url 'cart' %}" class="nav-brand">Cart</a>
                     </li>
@@ -44,6 +45,7 @@
                     <li class="ms-5 nav-item">
                         <a href="{% url 'wishlist' %}" class="nav-brand">Wishlist</a>
                     </li>
+                    {% endif %}
                 </ul>
                 <div class="d-flex align-items-center">
                     <form class="d-flex me-3" role="search">
