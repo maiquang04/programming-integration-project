@@ -10,7 +10,6 @@ Cart
 <link rel="stylesheet" href="{% static 'retail/css/cart.css' %}" />
 {% endblock %}
 
-
 {% block extra_js %}
 <script src="{% static 'js/cart.js' %}"></script>
 {% endblock %}
@@ -30,45 +29,42 @@ Cart
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Subtotal</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Product 1 -->
+            {% for item in cart_items %}
             <tr>
                 <td class="product-info">
-                    <img src="{% static 'retail/images/monitor.png' %}" alt="LCD Monitor" class="product-img">
-                    <span>LCD Monitor</span>
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-img">
+                    <span>{{ item.product.name }}</span>
                 </td>
-                <td>$650</td>
+                <td>${{ item.product.get_price }}</td>
                 <td>
-                    <div class="quantity-wrapper">
-                        <input type="number" class="quantity-input" value="1" min="1" max="99">
-                    </div>
+                    <form method="POST" action="{% url 'update-cart-item' item.id %}">
+                        {% csrf_token %}
+                        <div class="quantity-wrapper">
+                            <input type="number" class="quantity-input" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}">
+                            <button type="submit" class="btn btn-outline-secondary">Update</button>
+                        </div>
+                    </form>
                 </td>
-                <td>$650</td>
-            </tr>
-
-            <!-- Product 2 -->
-            <tr>
-                <td class="product-info">
-                    <img src="{% static 'retail/images/Gamepad.png' %}" alt="H1 Gamepad" class="product-img">
-                    <span>H1 Gamepad</span>
-                </td>
-                <td>$550</td>
+                <td>${{ item.subtotal }}</td>
                 <td>
-                    <div class="quantity-wrapper">
-                        <input type="number" class="quantity-input" value="1" min="1" max="99">
-                    </div>                    
+                    <form method="POST" action="{% url 'remove-cart-item' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
                 </td>
-                <td>$1100</td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 
     <!-- Cart Buttons -->
     <div class="cart-buttons">
         <a href="{% url 'index' %}" class="btn btn-outline-secondary">Return To Shop</a>
-        <button class="btn btn-outline-secondary ">Update Cart</button>
+        <button class="btn btn-outline-secondary">Update Cart</button>
     </div>
 </div>
 
@@ -78,21 +74,18 @@ Cart
     <div class="coupon-section">
         <input type="text" placeholder="Coupon Code" class="form-control">
         <button class="btn btn-danger btn-lg rounded-1 custom-btn-font">Apply Coupon</button>
-
     </div>
 
     <!-- Cart Total Section -->
     <div class="cart-total">
         <h3>Cart Total</h3>
-        <p>Subtotal: $1750</p>
+        <p>Subtotal: ${{ total_price }}</p>
         <p>Shipping: Free</p>
-        <p>Total: $1750</p>
+        <p>Total: ${{ total_price }}</p>
         <div class="button-wrapper">
-        <a href="{% url 'checkout' %}" class="btn btn-danger btn-lg rounded-1 custom-btn-font button-wrapper">Proceed to Checkout</a>
+            <a href="{% url 'checkout' %}" class="btn btn-danger btn-lg rounded-1 custom-btn-font">Proceed to Checkout</a>
         </div>
     </div>
 </div>
-
-
 
 {% endblock %}

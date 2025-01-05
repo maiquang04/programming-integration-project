@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.db import IntegrityError
 
-from .models import User, Category, Product
+from .models import User, Category, Product, Cart, CartItem
 
 
 # Create your views here.
@@ -92,7 +92,18 @@ def about(request):
 
 
 def cart(request):
-    return render(request, "retail/cart.html")
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    total_price = sum(item.product.get_price() * item.quantity for item in cart_items)
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price
+    }
+
+    return render(request, "retail/cart.html",context)
 
 
 def checkout(request):
@@ -141,3 +152,32 @@ def all_products(request):
     }
 
     return render(request, "retail/category.html", context)
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if not request.user.is_authenticated:
+        return redirect('login')  
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    quantity = int(request.POST.get('quantity', 1))
+    if not created:
+        cart_item.quantity += quantity
+    else:
+        cart_item.quantity = quantity
+    cart_item.save()
+    return redirect('cart')
+
+def remove_cart_item(request, item_id):
+    cart_item = CartItem.objects.get(id=item_id)
+    if cart_item.cart.user == request.user:
+        cart_item.delete()
+    return redirect('cart')  
+
+def update_cart_item(request, item_id):
+    cart_item = CartItem.objects.get(id=item_id)
+    if cart_item.cart.user == request.user:
+        new_quantity = int(request.POST.get('quantity'))
+        if new_quantity >= 1 and new_quantity <= cart_item.product.stock:
+            cart_item.quantity = new_quantity
+            cart_item.save()
+    return redirect('cart')

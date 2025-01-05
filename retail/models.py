@@ -83,8 +83,7 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def subtotal(self):
-        return self.quantity * self.product.price
-
+        return self.quantity * self.product.get_price()
 
 # Order model
 class Order(models.Model):
