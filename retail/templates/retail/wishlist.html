@@ -17,139 +17,44 @@ Wish List
 {% block body %}
 <div class='mt-5 '>
     <div class="d-flex justify-content-between">
-    <h4 class='align-self-center m-0'>Wishlist</h4>
-    <button class="move-all-btn">Move All To Bag</button>
+        <h4 class='align-self-center m-0'>Wishlist</h4>
+        <form action="{%url 'move-all-to-bag' %}" method= "POST">
+            {% csrf_token %}
+            <button class="move-all-btn">Move All To Bag</button>
+        </form>
     </div>
     <div>
         <div class="row mt-5">
-            <div class="col product-section__product d-flex flex-column">
-                <div class="product-section__product-thumbnail">
-                    <img src="{% static 'retail/images/the-north-coat.webp' %}" alt="The North Coat">
-                    <div class="product-section__product-icon">
-                        <i class="fa-regular fa-trash-can"></i>
-                        <!-- <i class="fa-solid fa-trash-can"></i> -->
+            {% for wishlist_item in wishlist_items %}
+            <a class="col-xl-3 col-md-6 product-section__product d-flex flex-column" href={%url 'product-details' wishlist_item.id %}>
+                <div class="product-section__product d-flex flex-column">
+                    <div class="product-section__product-thumbnail">
+                        <img src="{{ wishlist_item.get_image }}" alt="{{ wishlist_item.name }}">
+                        <form action="{%url 'remove-from-wishlist' wishlist_item.id %}" method= "POST">
+                            {% csrf_token %}
+                            <button type="submit" class="product-section__product-icon">
+                            <i class="fa-regular fa-trash-can"></i>
+                            <!-- <i class="fa-solid fa-trash-can"></i> -->
+                            </button>
+                        </form>
+                    </div>
+                    <div class="product-section__product-description d-flex flex-column">
+                        <div class="product-section__product-title">{{ product.name }}</div>
+                        <div class="product-section__product-price">
+                            ${{ wishlist_item.get_price}}
+                        </div>
+                        <div class="product-section__product-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star no-rating"></i>
+                            <i class="fa-solid fa-star no-rating"></i>
+                            <span class="product-section__product-rating-count">(35)</span>
+                        </div>
                     </div>
                 </div>
-                <div class="product-section__product-description d-flex flex-column">
-                    <div class="product-section__product-title">The North Coat</div>
-                    <div class="product-section__product-price">
-                        $260
-                        <span class="product-section__product-price strikethrough">$260</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col product-section__product d-flex flex-column">
-                <div class="product-section__product-thumbnail">
-                    <img src="{% static 'retail/images/gucci-duffle-bag.jpg' %}" alt="Gucci Duffle Bag">
-                    <div class="product-section__product-icon">
-                        <i class="fa-regular fa-trash-can"></i>
-                        <!-- <i class="fa-solid fa-trash-can"></i> -->
-                    </div>
-                </div>
-                <div class="product-section__product-description d-flex flex-column">
-                    <div class="product-section__product-title">Gucci Duffle Bag</div>
-                    <div class="product-section__product-price">
-                        $960
-                        <span class="product-section__product-price strikethrough">$1160</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col product-section__product d-flex flex-column">
-                <div class="product-section__product-thumbnail">
-                    <img src="{% static 'retail/images/rgb-liquid-cooler.jpg' %}" alt="RGB Liquid Cooler">
-                    <div class="product-section__product-icon">
-                        <i class="fa-regular fa-trash-can"></i>
-                        <!-- <i class="fa-solid fa-trash-can"></i> -->
-                    </div>
-                </div>
-                <div class="product-section__product-description d-flex flex-column">
-                    <div class="product-section__product-title">RGB Liquid Cooler</div>
-                    <div class="product-section__product-price">
-                        $160
-                        <span class="product-section__product-price strikethrough">$170</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col product-section__product d-flex flex-column">
-                <div class="product-section__product-thumbnail">
-                    <img src="{% static 'retail/images/small-bookshelf.webp' %}" alt="Small Bookshelf">
-                    <div class="product-section__product-icon">
-                        <i class="fa-regular fa-trash-can"></i>
-                        <!-- <i class="fa-solid fa-trash-can"></i> -->
-                    </div>
-                </div>
-                <div class="product-section__product-description d-flex flex-column">
-                    <div class="product-section__product-title">Small Bookshelf</div>
-                    <div class="product-section__product-price">
-                        $360
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col product-section__product d-flex flex-column">
-                <div class="product-section__product-thumbnail">
-                    <img src="{% static 'retail/images/the-north-coat.webp' %}" alt="The North Coat">
-                    <div class="product-section__product-icon">
-                        <i class="fa-regular fa-trash-can"></i>
-                        <!-- <i class="fa-solid fa-trash-can"></i> -->
-                    </div>
-                </div>
-                <div class="product-section__product-description d-flex flex-column">
-                    <div class="product-section__product-title">The North Coat</div>
-                    <div class="product-section__product-price">
-                        $260
-                        <span class="product-section__product-price strikethrough">$260</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col product-section__product d-flex flex-column">
-                <div class="product-section__product-thumbnail">
-                    <img src="{% static 'retail/images/gucci-duffle-bag.jpg' %}" alt="Gucci Duffle Bag">
-                    <div class="product-section__product-icon">
-                        <i class="fa-regular fa-trash-can"></i>
-                        <!-- <i class="fa-solid fa-trash-can"></i> -->
-                    </div>
-                </div>
-                <div class="product-section__product-description d-flex flex-column">
-                    <div class="product-section__product-title">Gucci Duffle Bag</div>
-                    <div class="product-section__product-price">
-                        $960
-                        <span class="product-section__product-price strikethrough">$1160</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col product-section__product d-flex flex-column">
-                <div class="product-section__product-thumbnail">
-                    <img src="{% static 'retail/images/rgb-liquid-cooler.jpg' %}" alt="RGB Liquid Cooler">
-                    <div class="product-section__product-icon">
-                        <i class="fa-regular fa-trash-can"></i>
-                        <!-- <i class="fa-solid fa-trash-can"></i> -->
-                    </div>
-                </div>
-                <div class="product-section__product-description d-flex flex-column">
-                    <div class="product-section__product-title">RGB Liquid Cooler</div>
-                    <div class="product-section__product-price">
-                        $160
-                        <span class="product-section__product-price strikethrough">$170</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col product-section__product d-flex flex-column">
-                <div class="product-section__product-thumbnail">
-                    <img src="{% static 'retail/images/small-bookshelf.webp' %}" alt="Small Bookshelf">
-                    <div class="product-section__product-icon">
-                        <i class="fa-regular fa-trash-can"></i>
-                        <!-- <i class="fa-solid fa-trash-can"></i> -->
-                    </div>
-                </div>
-                <div class="product-section__product-description d-flex flex-column">
-                    <div class="product-section__product-title">Small Bookshelf</div>
-                    <div class="product-section__product-price">
-                        $360
-                    </div>
-                </div>
-            </div>
+            </a>
+            {% endfor%}
         </div>
     </div>
     <div class="just-for-u-section mt-5">

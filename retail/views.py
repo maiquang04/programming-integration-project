@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.db import IntegrityError
 
-from .models import User, Category, Product, Cart, CartItem, Address
+from .models import User, Category, Product, Cart, CartItem, Address, Wishlist, WishlistItem
 
 
 # Create your views here.
@@ -151,18 +151,26 @@ def checkout(request):
 
 def product_details(request, product_id):
     product = Product.objects.get(pk=product_id)
-
+    # Check if the product is already in the user's wishlist
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    is_in_wishlist = wishlist.items.filter(product=product).exists()
     return render(
         request,
         "retail/product-details.html",
         {
             "product": product,
+            "is_in_wishlist":is_in_wishlist,
         },
     )
 
 
 def wishlist(request):
-    return render(request, "retail/wishlist.html")
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    wishlist_items = Product.objects.filter(wishlist_items__wishlist=wishlist)
+    return render(request, "retail/wishlist.html",
+                {
+                    'wishlist_items': wishlist_items
+                })
 
 
 def category(request, category_id):
@@ -209,6 +217,40 @@ def add_to_cart(request, product_id):
     cart_item.save()
     return redirect("cart")
 
+def toggle_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if not request.user.is_authenticated:
+        return redirect("login")
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    wishlistItem , createdItem = WishlistItem.objects.get_or_create(wishlist=wishlist,product=product)
+    if createdItem :
+        wishlistItem.save()
+    else:
+        wishlistItem.delete()
+    return redirect("product-details",product_id=product_id)
+
+def remove_from_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    wishlistItem , createdItem = WishlistItem.objects.get_or_create(wishlist=wishlist,product=product)
+    wishlistItem.delete()
+    return redirect("wishlist")
+
+def move_all_to_bag(request):
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    wishlist_products = WishlistItem.objects.filter(wishlist=wishlist)
+    for wishlist_product in wishlist_products:
+        cart_item, createdCartItem = CartItem.objects.get_or_create(
+            cart=cart, product= wishlist_product.product
+        )
+        if not createdCartItem:
+            cart_item.quantity += 1
+        else:
+            cart_item.quantity = 1
+        cart_item.save()
+        wishlist_product.delete()
+    return redirect('cart')
 
 def remove_cart_item(request, item_id):
     cart_item = CartItem.objects.get(id=item_id)

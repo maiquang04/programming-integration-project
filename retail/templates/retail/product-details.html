@@ -15,7 +15,7 @@ Product-Details
 {% endblock %}
 
 {% block body %}
-<div class="mt-4 d-flex gap-3 product_container">
+<div class="mt-4 d-flex gap-5 product_container">
     <div class="product-images d-flex h-100 gap-3">
         <div class="d-flex flex-column gap-1 overflow-auto">
             {% for i in "12345" %}
@@ -43,7 +43,14 @@ Product-Details
                     <input type="number" name="quantity" id="quantity_input" value="1" min="1" />
                     <button class='increment_button' onclick="increment()"><i class="fa-solid fa-plus"></i></button>
                 </div>
-                <div class='wishlist_button' role='button' onclick="toggleWishlist(this)"><i class="fa-regular fa-heart wishlist_icon"></i></div>
+                <form method="POST" action="{% url 'toggle-wishlist' product.id %}">
+                    {% csrf_token %}
+                    {% if is_in_wishlist %}
+                    <button style='color: #db4444' class='wishlist_button' role='button'><i class="fa-solid fa-heart wishlist_icon"></i></button>
+                    {% else%}
+                    <button class='wishlist_button' role='button'><i class="fa-regular fa-heart wishlist_icon"></i></button>
+                    {% endif %}
+                </form>
             </div>
 
             <!-- Updated "Add to Cart" button with form -->
