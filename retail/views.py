@@ -151,6 +151,7 @@ def checkout(request):
 
 def product_details(request, product_id):
     product = Product.objects.get(pk=product_id)
+    related_products = Product.objects.filter(category=product.category)[:4]
     # Check if the product is already in the user's wishlist
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
     is_in_wishlist = wishlist.items.filter(product=product).exists()
@@ -160,6 +161,7 @@ def product_details(request, product_id):
         {
             "product": product,
             "is_in_wishlist":is_in_wishlist,
+            "related_products": related_products,
         },
     )
 
