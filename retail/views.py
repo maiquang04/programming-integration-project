@@ -288,9 +288,29 @@ def place_order(request):
     cart_items = CartItem.objects.filter(cart=cart)
     total_amount = sum(item.product.get_price() * item.quantity for item in cart_items)
 
-    # Get payment method from POST request
     payment_method = request.POST.get("payment_method", "Cash on Delivery")
-
+    billing_details = Address.objects.filter(user=request.user).first()
+    if request.method == "POST":
+        if billing_details:
+            billing_details.first_name = request.POST["first_name"]
+            billing_details.company_name = request.POST.get("company_name", "")
+            billing_details.street_address = request.POST["street_address"]
+            billing_details.apartment_floor = request.POST.get("apartment", "")
+            billing_details.city = request.POST["city"]
+            billing_details.phone_number = request.POST["phone_number"]
+            billing_details.email_address = request.POST["email"]
+        else:
+            billing_details = Address(
+                user=request.user,
+                first_name=request.POST["first_name"],
+                company_name=request.POST.get("company_name", ""),
+                street_address=request.POST["street_address"],
+                apartment_floor=request.POST.get("apartment", ""),
+                city=request.POST["city"],
+                phone_number=request.POST["phone_number"],
+                email_address=request.POST["email"],
+            )
+        billing_details.save()
     # Create the order
     order = Order.objects.create(
         user=request.user,
