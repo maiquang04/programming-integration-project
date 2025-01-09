@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.db import IntegrityError
 
-from .models import User, Category, Product, Cart, CartItem, Address, Wishlist, WishlistItem
+from .models import User, Category, Product, Cart, CartItem, Address, Wishlist, WishlistItem, Order,OrderItem
 
 
 # Create your views here.
@@ -277,3 +277,41 @@ def search(request):
     return render(
         request, "retail/search.html", {"products": products, "query": query}
     )
+
+def place_order(request):
+
+    cart = Cart.objects.filter(user=request.user).first()
+    if not cart or not cart.items.exists():
+        return redirect("cart")
+
+    # Collect cart items and calculate total
+    cart_items = CartItem.objects.filter(cart=cart)
+    total_amount = sum(item.product.get_price() * item.quantity for item in cart_items)
+
+    # Get payment method from POST request
+    payment_method = request.POST.get("payment_method", "Cash on Delivery")
+
+    # Create the order
+    order = Order.objects.create(
+        user=request.user,
+        total_amount=total_amount,
+        payment_method=payment_method,
+        status="Pending"
+    )
+
+    # Create order items
+    for cart_item in cart_items:
+        OrderItem.objects.create(
+            order=order,
+            product=cart_item.product,
+            quantity=cart_item.quantity,
+            price=cart_item.product.get_price()
+        )
+        # Reduce stock for the product
+        cart_item.product.stock -= cart_item.quantity
+        cart_item.product.save()
+
+    # Clear the cart after placing the order
+    cart_items.delete()
+
+    return redirect("index")

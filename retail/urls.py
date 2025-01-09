@@ -41,4 +41,5 @@ urlpatterns = [
         name="remove-cart-item",
     ),
     path("search", views.search, name="search"),
+    path("place_order", views.place_order, name="place_order"),
 ]

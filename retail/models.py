@@ -96,9 +96,16 @@ class Order(models.Model):
     user = models.ForeignKey(
         User, related_name="orders", on_delete=models.CASCADE
     )
+    PAYMENT_CHOICES = [
+        ("Card", "Card"),
+        ("Cash on Delivery", "Cash on Delivery"),
+    ]
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(
         max_length=50, choices=STATUS_CHOICES, default="Pending"
+    )
+    payment_method = models.CharField(
+        max_length=50, choices=PAYMENT_CHOICES, default="Cash on Delivery"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

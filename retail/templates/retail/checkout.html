@@ -2,9 +2,7 @@
 
 {% load static %}
 
-{% block title %}
-Checkout
-{% endblock %}
+{% block title %}Checkout{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'retail/css/checkout.css' %}" />
@@ -21,106 +19,75 @@ Checkout
     <a href="#">My Account</a> /
     <a href="#">Product</a> /
     <a href="#">View Cart</a> /
-    <strong>CheckOut</strong>
+    <strong>Checkout</strong>
 </nav>
 
 <div class="form-and-checkout">
-    <!-- Billing Form -->
-    <div class="form-container">
-        <h1>Billing Details</h1>
-        <form action="{% url 'checkout' %}" method="post">
-            {% csrf_token %}
-            <!-- First Name -->
-            <label for="first-name">First Name<span>*</span></label>
-            <input type="text" id="first-name" name="first_name" placeholder="Enter your first name"
-                value="{{ billing_details.first_name|default:'' }}" required>
+  <!-- Left Section: Billing Details and Payment -->
+  <form method="POST" action="{% url 'place_order' %}" class="billing-form">
+    {% csrf_token %}
+    <div class="billing-details">
+      <h3>Billing Details</h3>
+      <label for="first_name">First Name*</label>
+      <input type="text" id="first_name" name="first_name" value="{{ billing_details.first_name }}" required>
 
-            <!-- Company Name -->
-            <label for="company-name">Company Name</label>
-            <input type="text" id="company-name" name="company_name" placeholder="Enter company name"
-                value="{{ billing_details.company_name|default:'' }}">
+      <label for="company_name">Company Name (optional)</label>
+      <input type="text" id="company_name" name="company_name" value="{{ billing_details.company_name }}">
 
-            <!-- Street Address -->
-            <label for="street-address">Street Address<span>*</span></label>
-            <input type="text" id="street-address" name="street_address" placeholder="Enter your street address"
-                value="{{ billing_details.street_address|default:'' }}" required>
+      <label for="street_address">Street Address*</label>
+      <input type="text" id="street_address" name="street_address" value="{{ billing_details.street_address }}" required>
 
-            <!-- Apartment (Optional) -->
-            <label for="apartment">Apartment, floor, etc. (optional)</label>
-            <input type="text" id="apartment" name="apartment" placeholder="Apartment, suite, unit, etc."
-                value="{{ billing_details.apartment_floor|default:'' }}">
+      <label for="apartment">Apartment/Floor (optional)</label>
+      <input type="text" id="apartment" name="apartment" value="{{ billing_details.apartment_floor }}">
 
-            <!-- Town/City -->
-            <label for="city">Town/City<span>*</span></label>
-            <input type="text" id="city" name="city" placeholder="Enter your city"
-                value="{{ billing_details.city|default:'' }}" required>
+      <label for="city">Town/City*</label>
+      <input type="text" id="city" name="city" value="{{ billing_details.city }}" required>
 
-            <!-- Phone Number -->
-            <label for="phone-number">Phone Number<span>*</span></label>
-            <input type="tel" id="phone-number" name="phone_number" placeholder="Enter your phone number"
-                value="{{ billing_details.phone_number|default:'' }}" required>
+      <label for="phone_number">Phone Number*</label>
+      <input type="text" id="phone_number" name="phone_number" value="{{ billing_details.phone_number }}" required>
 
-            <!-- Email Address -->
-            <label for="email">Email Address<span>*</span></label>
-            <input type="email" id="email" name="email" placeholder="Enter your email address"
-                value="{{ billing_details.email_address|default:'' }}" required>
+      <label for="email">Email Address*</label>
+      <input type="email" id="email" name="email" value="{{ billing_details.email_address }}" required>
 
-            <!-- Save Information Checkbox -->
-            <div class="save-info">
-                <input type="checkbox" id="save-info" name="save_info">
-                <label for="save-info">Save this information for faster check-out next time</label>
-            </div>
-
-            <button type="submit">Save Billing Information</button>
-        </form>
+      <div class="save-info">
+        <input type="checkbox" id="save_info" name="save_info">
+        <label for="save_info">Save this information for faster check-out next time</label>
+      </div>
     </div>
 
-    <!-- Checkout Container -->
-    <div class="checkout-container">
-        <!-- Items -->
-        <div class="checkout-item">
-            {% for item in cart_items %}
-            <div class="checkout-item">
-                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-                <div class="item-details">
-                    <span class="item-name">{{ item.product.name }}</span>
-                    <span class="item-price">${{ item.product.price }}</span>
-                    <span class="item-quantity">x {{ item.quantity }}</span>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="checkout-summary">
-            <div class="summary-line">
-                <span>Subtotal:</span>
-                <span>${{ subtotal }}</span>
-            </div>
-            <div class="summary-line">
-                <span>Shipping:</span>
-                <span>Free</span>
-            </div>
-            <div class="summary-line">
-                <span>Total:</span>
-                <span>${{ Total }}</span>
-            </div>
-        </div>
-
-        <!-- Payment Method -->
-        <div class="payment-method">
-            <label>
-                <input type="radio" name="payment" value="bank">
-                <span>Bank</span>
-                <img src="{% static 'retail/images/visa-master.png' %}" alt="Payment Icons" style="height: 20px;">
-            </label>
-            <label>
-                <input type="radio" name="payment" value="cod" checked>
-                <span>Cash on delivery</span>
-            </label>
-        </div>
-
-        <!-- Place Order -->
-        <button class="place-order" onclick="window.location.href='{% url 'index' %}'">Place Order</button>
+    <!-- Payment Method -->
+    <div class="payment-method">
+      <h3>Payment Method</h3>
+      <label>
+        <input type="radio" name="payment_method" value="Bank" required> Bank
+      </label>
+      <label>
+        <input type="radio" name="payment_method" value="Cash on Delivery" required> Cash on Delivery
+      </label>
     </div>
+
+    <!-- Place Order Button -->
+    <div class="place-order">
+      <button type="submit" class="btn">Place Order</button>
+    </div>
+  </form>
+
+  <!-- Right Section: Cart Summary -->
+  <div class="checkout-summary">
+    <div class="cart-summary">
+      <h3>Your Order</h3>
+      <ul>
+        {% for item in cart_items %}
+          <li>
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-img">
+            {{ item.product.name }} - ${{ item.product.get_price }}
+          </li>
+        {% endfor %}
+      </ul>
+      <p><strong>Subtotal:</strong> ${{ subtotal }}</p>
+      <p><strong>Shipping:</strong> Free</p>
+      <p><strong>Total:</strong> ${{ Total }}</p>
+    </div>
+  </div>
 </div>
 {% endblock %}
