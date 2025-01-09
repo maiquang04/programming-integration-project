@@ -127,7 +127,8 @@ width: 100%;
 
 .product-img {
     width: 50px;
-    height: auto;
+    height: 50px;
+    object-fit: cover;
     margin-right: 10px;
 }
 
