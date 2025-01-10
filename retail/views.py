@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.db import IntegrityError
 
-from .models import User, Category, Product, Cart, CartItem, Address
+from .models import User, Category, Product, Cart, CartItem, Address, Wishlist, WishlistItem, Order,OrderItem
 
 
 # Create your views here.
@@ -151,18 +151,28 @@ def checkout(request):
 
 def product_details(request, product_id):
     product = Product.objects.get(pk=product_id)
-
+    related_products = Product.objects.filter(category=product.category)[:4]
+    # Check if the product is already in the user's wishlist
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    is_in_wishlist = wishlist.items.filter(product=product).exists()
     return render(
         request,
         "retail/product-details.html",
         {
             "product": product,
+            "is_in_wishlist":is_in_wishlist,
+            "related_products": related_products,
         },
     )
 
 
 def wishlist(request):
-    return render(request, "retail/wishlist.html")
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    wishlist_items = Product.objects.filter(wishlist_items__wishlist=wishlist)
+    return render(request, "retail/wishlist.html",
+                {
+                    'wishlist_items': wishlist_items
+                })
 
 
 def category(request, category_id):
@@ -209,6 +219,40 @@ def add_to_cart(request, product_id):
     cart_item.save()
     return redirect("cart")
 
+def toggle_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if not request.user.is_authenticated:
+        return redirect("login")
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    wishlistItem , createdItem = WishlistItem.objects.get_or_create(wishlist=wishlist,product=product)
+    if createdItem :
+        wishlistItem.save()
+    else:
+        wishlistItem.delete()
+    return redirect("product-details",product_id=product_id)
+
+def remove_from_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    wishlistItem , createdItem = WishlistItem.objects.get_or_create(wishlist=wishlist,product=product)
+    wishlistItem.delete()
+    return redirect("wishlist")
+
+def move_all_to_bag(request):
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    wishlist_products = WishlistItem.objects.filter(wishlist=wishlist)
+    for wishlist_product in wishlist_products:
+        cart_item, createdCartItem = CartItem.objects.get_or_create(
+            cart=cart, product= wishlist_product.product
+        )
+        if not createdCartItem:
+            cart_item.quantity += 1
+        else:
+            cart_item.quantity = 1
+        cart_item.save()
+        wishlist_product.delete()
+    return redirect('cart')
 
 def remove_cart_item(request, item_id):
     cart_item = CartItem.objects.get(id=item_id)
@@ -233,3 +277,61 @@ def search(request):
     return render(
         request, "retail/search.html", {"products": products, "query": query}
     )
+
+def place_order(request):
+
+    cart = Cart.objects.filter(user=request.user).first()
+    if not cart or not cart.items.exists():
+        return redirect("cart")
+
+    # Collect cart items and calculate total
+    cart_items = CartItem.objects.filter(cart=cart)
+    total_amount = sum(item.product.get_price() * item.quantity for item in cart_items)
+
+    payment_method = request.POST.get("payment_method", "Cash on Delivery")
+    billing_details = Address.objects.filter(user=request.user).first()
+    if request.method == "POST":
+        if billing_details:
+            billing_details.first_name = request.POST["first_name"]
+            billing_details.company_name = request.POST.get("company_name", "")
+            billing_details.street_address = request.POST["street_address"]
+            billing_details.apartment_floor = request.POST.get("apartment", "")
+            billing_details.city = request.POST["city"]
+            billing_details.phone_number = request.POST["phone_number"]
+            billing_details.email_address = request.POST["email"]
+        else:
+            billing_details = Address(
+                user=request.user,
+                first_name=request.POST["first_name"],
+                company_name=request.POST.get("company_name", ""),
+                street_address=request.POST["street_address"],
+                apartment_floor=request.POST.get("apartment", ""),
+                city=request.POST["city"],
+                phone_number=request.POST["phone_number"],
+                email_address=request.POST["email"],
+            )
+        billing_details.save()
+    # Create the order
+    order = Order.objects.create(
+        user=request.user,
+        total_amount=total_amount,
+        payment_method=payment_method,
+        status="Pending"
+    )
+
+    # Create order items
+    for cart_item in cart_items:
+        OrderItem.objects.create(
+            order=order,
+            product=cart_item.product,
+            quantity=cart_item.quantity,
+            price=cart_item.product.get_price()
+        )
+        # Reduce stock for the product
+        cart_item.product.stock -= cart_item.quantity
+        cart_item.product.save()
+
+    # Clear the cart after placing the order
+    cart_items.delete()
+
+    return redirect("index")

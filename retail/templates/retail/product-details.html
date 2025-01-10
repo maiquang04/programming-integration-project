@@ -15,7 +15,7 @@ Product-Details
 {% endblock %}
 
 {% block body %}
-<div class="mt-4 d-flex gap-3 product_container">
+<div class="mt-4 d-flex gap-5 product_container">
     <div class="product-images d-flex h-100 gap-3">
         <div class="d-flex flex-column gap-1 overflow-auto">
             {% for i in "12345" %}
@@ -43,7 +43,14 @@ Product-Details
                     <input type="number" name="quantity" id="quantity_input" value="1" min="1" />
                     <button class='increment_button' onclick="increment()"><i class="fa-solid fa-plus"></i></button>
                 </div>
-                <div class='wishlist_button' role='button' onclick="toggleWishlist(this)"><i class="fa-regular fa-heart wishlist_icon"></i></div>
+                <form method="POST" action="{% url 'toggle-wishlist' product.id %}">
+                    {% csrf_token %}
+                    {% if is_in_wishlist %}
+                    <button style='color: #db4444' class='wishlist_button' role='button'><i class="fa-solid fa-heart wishlist_icon"></i></button>
+                    {% else%}
+                    <button class='wishlist_button' role='button'><i class="fa-regular fa-heart wishlist_icon"></i></button>
+                    {% endif %}
+                </form>
             </div>
 
             <!-- Updated "Add to Cart" button with form -->
@@ -80,34 +87,36 @@ Product-Details
     </div>
 </div>
 
-<div class='mt-5'>
+<div style='margin-bottom: 40px;' class='mt-5'>
     <h5 class='related-item_list' style='color: red'>Related items</h5>
 </div>
-<div class='d-flex overflow-auto flex-fill gap-4'>
-    <a role='button' src='#'>
-        <div>
-            <img src="{{ product.get_image }}" class='object-fit-contain related-item_img' />
-            <h5>{{ product.name }}</h5>
+<div class='row g-5'>
+    {% for related_product in related_products %}
+    <a href="{% url 'product-details' related_product.id %}" class="col-xl-3 col-md-6 product-section__product d-flex flex-column"> 
+        <div class="product-section__product-thumbnail">
+            <img src="{{ related_product.get_image }}" alt="{{ related_product.name }}">
+        </div>
+        <div class="product-section__product-description d-flex flex-column">
+            <div class="product-section__product-title">{{ product.name }}</div>
+            <div class="product-section__product-price">
+                ${{ related_product.get_price }}
+                {% if product.discounted_price %}
+                <span class="product-section__product-price strikethrough">
+                    ${{ related_product.price }}
+                </span>
+                {% endif %}
+            </div>
+            <div class="product-section__product-rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star no-rating"></i>
+                <span class="product-section__product-rating-count">(65)</span>
+            </div>
         </div>
     </a>
-    <a role='button' src='#'>
-        <div>
-            <img src="{{ product.get_image }}" class='object-fit-contain related-item_img' />
-            <h5>{{ product.name }}</h5>
-        </div>
-    </a>
-    <a role='button' src='#'>
-        <div>
-            <img src="{{ product.get_image }}" class='object-fit-contain related-item_img' />
-            <h5>{{ product.name }}</h5>
-        </div>
-    </a>
-    <a role='button' src='#'>
-        <div>
-            <img src="{{ product.get_image }}" class='object-fit-contain related-item_img' />
-            <h5>{{ product.name }}</h5>
-        </div>
-    </a>
+    {% endfor %}
 </div>
 
 {% endblock %}

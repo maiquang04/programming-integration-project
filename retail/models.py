@@ -96,9 +96,16 @@ class Order(models.Model):
     user = models.ForeignKey(
         User, related_name="orders", on_delete=models.CASCADE
     )
+    PAYMENT_CHOICES = [
+        ("Card", "Card"),
+        ("Cash on Delivery", "Cash on Delivery"),
+    ]
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(
         max_length=50, choices=STATUS_CHOICES, default="Pending"
+    )
+    payment_method = models.CharField(
+        max_length=50, choices=PAYMENT_CHOICES, default="Cash on Delivery"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -142,7 +149,10 @@ class Address(models.Model):
 # Wishlist model
 class Wishlist(models.Model):
     user = models.ForeignKey(
-        User, related_name="wishlist", on_delete=models.CASCADE
+    User,  # Reference to the User model
+    related_name="wishlist",  # Backward relation name for reverse queries
+    on_delete=models.CASCADE,  # Delete the wishlist items when the user is deleted
+    null=False,  # Ensures the field is NOT NULL in the database
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -153,10 +163,13 @@ class Wishlist(models.Model):
 # WishlistItem model
 class WishlistItem(models.Model):
     wishlist = models.ForeignKey(
-        Wishlist, related_name="items", on_delete=models.CASCADE
+        Wishlist, 
+        related_name="items", 
+        on_delete=models.CASCADE,
+        null=False,
     )
     product = models.ForeignKey(
-        Product, related_name="wishlist_items", on_delete=models.CASCADE
+        Product, related_name="wishlist_items", on_delete=models.CASCADE, null= False,
     )
     added_at = models.DateTimeField(auto_now_add=True)
 

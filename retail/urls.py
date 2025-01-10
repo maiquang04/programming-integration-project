@@ -22,6 +22,15 @@ urlpatterns = [
         "add-to-cart/<int:product_id>/", views.add_to_cart, name="add-to-cart"
     ),
     path(
+        "add-to-wishlist/<int:product_id>/", views.toggle_wishlist, name="toggle-wishlist"
+    ),
+    path(
+        "remove-from-wishlist/<int:product_id>/", views.remove_from_wishlist, name="remove-from-wishlist"
+    ),
+    path(
+        "move-all-to-bag/", views.move_all_to_bag, name="move-all-to-bag"
+    ),
+    path(
         "update-cart-item/<int:item_id>/",
         views.update_cart_item,
         name="update-cart-item",
@@ -32,4 +41,5 @@ urlpatterns = [
         name="remove-cart-item",
     ),
     path("search", views.search, name="search"),
+    path("place_order", views.place_order, name="place_order"),
 ]
