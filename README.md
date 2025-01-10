@@ -45,6 +45,15 @@
 
 -   Admin at [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin), username: admin, password: admin.
 
+## Group Information
+
+-   Class CC03
+-   Group 11
+-   Members:
+    -   Mai Thanh Nhat Quang - 2250016
+    -   Vuong Khang - 2250008
+    -   Le Minh Quoc - 2250017
+
 ## **Specifications**
 
 -   Login / Log out
@@ -55,3 +64,4 @@
 -   Wishlist
 -   Cart
 -   Checkout
+-   Add products
